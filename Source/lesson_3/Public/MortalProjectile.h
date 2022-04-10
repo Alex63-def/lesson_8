@@ -24,4 +24,7 @@ public:
 	// отвечает уже за саму физику полета снаряда - это как я делал в принтах до этого урока
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UProjectileMovementComponent* MovementComponent;
+
+	 // при столкновении с чем-либо будет срабатывать эвент и будем обрабатывать столкновения
+	virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
 };

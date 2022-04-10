@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
-#include "IScorable.h"
+//#include "IScorable.h"
 #include "BaseProjectile.h"
 #include "Projectile.generated.h"
 
@@ -14,8 +14,8 @@ class LESSON_3_API AProjectile : public ABaseProjectile
 {
 	GENERATED_BODY()
 
-		DECLARE_EVENT(AProjectile, FKillEvent);
-		DECLARE_EVENT_OneParam(AProjectile, FExpEvent, FExpData);
+		/*DECLARE_EVENT(AProjectile, FKillEvent);
+		DECLARE_EVENT_OneParam(AProjectile, FExpEvent, FExpData);*/
 
 public:	
 	// Sets default values for this actor's properties
@@ -38,8 +38,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fire Projectile")
 		int SelfDestructionSec = 3;
 
-	FKillEvent OnKillEvent;
-	FExpEvent OnExpEventProjectile;
+	/*FKillEvent OnKillEvent;
+	FExpEvent OnExpEventProjectile;*/
 
 protected:
 	// Called when the game starts or when spawned

@@ -83,6 +83,13 @@ void AProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		}
 	}
 
+	// это роняет стены - передача физического усилия
+	const auto Root = Cast<UPrimitiveComponent>(OtherActor->GetRootComponent());
+	if (Root && Root->IsSimulatingPhysics())
+	{
+		Root->AddImpulseAtLocation(GetActorForwardVector() * MoveSpeed, SweepResult.Location);
+	}
+
 	auto Temp = GetActorLocation();
 	SetActorLocation({-100, -100, -100});
 	ShootEffect->SetWorldLocation(Temp);

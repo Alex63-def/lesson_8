@@ -5,12 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
+#include "IScorable.h"
 #include "BaseProjectile.generated.h"
 
 UCLASS()
 class LESSON_3_API ABaseProjectile : public AActor
 {
 	GENERATED_BODY()
+
+		DECLARE_EVENT(ABaseProjectile, FKillEvent);
+		DECLARE_EVENT_OneParam(ABaseProjectile, FExpEvent, FExpData);
 	
 public:	
 	// Sets default values for this actor's properties
@@ -24,6 +28,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Projectile")
 		float Damage = 1;
+
+	FKillEvent OnKillEvent;
+	FExpEvent OnExpEventProjectile;
 
 protected:
 	// Called when the game starts or when spawned

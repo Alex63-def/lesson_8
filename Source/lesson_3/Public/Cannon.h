@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/ArrowComponent.h"
+#include "BaseProjectile.h"
 #include "Projectile.h"
 #include "Rocket.h"
 #include "Particles/ParticleSystemComponent.h" // для визуального эффекта
@@ -51,7 +52,7 @@ public:
 		ECannonType Type = ECannonType::FireProjectile;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fire params")
-		TSubclassOf<AProjectile> ProjectileClass;
+		TSubclassOf<ABaseProjectile> ProjectileClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fire params")
 		TSubclassOf<ARocket> RocketClass;
@@ -69,7 +70,7 @@ public:
 		int QuantityEnemyTankProjectile = 5;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-		AProjectile* ProjectileKill;
+		ABaseProjectile* ProjectileKill;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 		ARocket* RocketKill;

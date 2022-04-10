@@ -75,7 +75,7 @@ void ACannon::Shoot()
 		switch (Type)
 		{
 		case ECannonType::FireProjectile:
-			ProjectileKill = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
+			ProjectileKill = GetWorld()->SpawnActor<ABaseProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
 			AudioEffectProjectile->Play();
 			ShootEffectProjectile_1->ActivateSystem();
 			ShootEffectProjectile_2->ActivateSystem();
@@ -123,7 +123,7 @@ void ACannon::ShootTurret()
 	switch (Type)
 	{
 	case ECannonType::FireProjectile:
-		GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
+		GetWorld()->SpawnActor<ABaseProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
 		AudioEffectProjectile->Play();
 		ShootEffectProjectile_1->ActivateSystem();
 		ShootEffectProjectile_2->ActivateSystem();
@@ -157,7 +157,7 @@ void ACannon::ShootEnemyTank()
 	switch (Type)
 	{
 	case ECannonType::FireProjectile:
-		GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
+		GetWorld()->SpawnActor<ABaseProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
 		AudioEffectProjectile->Play();
 		ShootEffectProjectile_1->ActivateSystem();
 		ShootEffectProjectile_2->ActivateSystem();

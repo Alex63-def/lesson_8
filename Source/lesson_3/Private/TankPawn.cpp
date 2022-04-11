@@ -502,6 +502,7 @@ void ATankPawn::RotationCannon(float DeltaTime)
 			TurretRightScaleCurrent = FMath::Lerp(TurretRightScaleCurrent, TurretRightScaleTarget, RotationAcceleration);
 
 			auto OldRotation = TurretMesh->GetComponentRotation();
+			auto BodyMeshRotation = BodyMesh->GetComponentRotation();
 
 			auto NewRotation = OldRotation;
 
@@ -530,11 +531,15 @@ void ATankPawn::RotationCannon(float DeltaTime)
 				}
 			}
 
+			OldRotation.Pitch = BodyMeshRotation.Pitch;
+			OldRotation.Roll = BodyMeshRotation.Roll;
+
 			TurretMesh->SetWorldRotation(FMath::Lerp(OldRotation, NewRotation, TurretAcceleration));
 		}
 		else
 		{
 			auto OldRotation = TurretMesh->GetComponentRotation();
+			auto BodyMeshRotation = BodyMesh->GetComponentRotation();
 
 			FRotator TurretRotation = UKismetMathLibrary::FindLookAtRotation(TurretMesh->GetComponentLocation(), TargetController->GetShootTarget());
 
@@ -562,6 +567,9 @@ void ATankPawn::RotationCannon(float DeltaTime)
 			}
 
 			OldRotation.Yaw = TurretRotation.Yaw;
+
+			OldRotation.Pitch = BodyMeshRotation.Pitch;
+			OldRotation.Roll = BodyMeshRotation.Roll;
 
 			TurretMesh->SetWorldRotation(FMath::Lerp(TurretMesh->GetComponentRotation(), OldRotation, TurretAcceleration));
 		}

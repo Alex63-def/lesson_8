@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SphereComponent.h"
-#include "GameFramework/Actor.h"
+//#include "Components/SphereComponent.h"
+//#include "GameFramework/Actor.h"
 //#include "IScorable.h"
 #include "BaseProjectile.h"
 #include "Projectile.generated.h"

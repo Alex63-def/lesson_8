@@ -35,12 +35,15 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void Destroyed() override;
+		
+	virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
+		
+	virtual void OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) override;
 
-	//UFUNCTION()
-		virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
-
-	//UFUNCTION()
-		virtual void OnEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) override;
+	//функция стрельбы в любом случае для нового типа снарядов
+	// это блюпринт для нее, что бы из движка ее ставить 
+	UFUNCTION(BlueprintCallable) // ее запускаем выбрав cannon position в event graph в принтах
+		void FireAnyway();
 
 public:	
 	// Called every frame

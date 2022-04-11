@@ -153,23 +153,14 @@ void ATurret::FindNextTarget()
 
 void ATurret::Targeting()
 {
-	// логика отвечающая за прицеоливание по целям
-	// проверим что цель есть
-	// изменено под варинат препода для отслеживания танка
-	if (!Target.IsValid()) // тут был просто ретурн но теперь надо делать проверку на цель
+	
+	if (!Target.IsValid()) 
 	{
-		/*FindNextTarget();
-
-		if (!Target.IsValid())
-		{*/
-			return;
-		//}
+		return;
 	}
 	
-	// будем вращатся в сторону этой цели
 	auto TargetRotation = UKismetMathLibrary::FindLookAtRotation(SceneComponent->GetComponentLocation(), Target->GetActorLocation()); // TurretMesh
 
-	// сделаем не только поворот башни в сторону цели но и наклон башни, так как она будет выше танка
 	SceneComponent->SetWorldRotation(FMath::Lerp(SceneComponent->GetComponentRotation(), TargetRotation, TargetingSpeed));
 
 	int TargetRotationY = TargetRotation.Yaw * 10;
@@ -199,34 +190,23 @@ void ATurret::Targeting()
 			IsTurretRotation = false;
 		}
 	}
-	/*UE_LOG(LogTanks, Warning, TEXT("%s"), *TargetRotation.ToString());
-	UE_LOG(LogTanks, Warning, TEXT("%s"), *SceneComponent->GetComponentRotation().ToString());*/
-	// намнужно что бы пушка начала стрелять еще до того как 100% нацелится на танк, так как он всегда в движении
-	// мы находим вектор куда смотрит пушка и вектор находения танка и смотрим на сколько мал угол между ними что бы начать стрельбу
-	// это направление куда смотрит турель
+	
 	auto TargetingDirection = TurretMesh->GetForwardVector();
 
-	// это направление в сторону игрока 
 	auto PlayerDirection = Target->GetActorLocation() - GetActorLocation();
 	
-	// этот вектор нужно зачем-то нормализовать - не сказал почему
 	PlayerDirection.Normalize(); // наверное это как число по модулю 
 
-	// угол между двумя векторами 
 	auto Angle = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(TargetingDirection, PlayerDirection))); // это операция умножения одного вектора на другой и по теореме косинусов вроде найдет угол между векторами
 
 	FHitResult Result;
-	///FCollisionObjectQueryParams Params;
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
 	Params.AddIgnoredActor(Cannon);
 	Params.bTraceComplex = true;
-	/*Params.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
-	Params.AddObjectTypesToQuery(ECollisionChannel::ECC_OverlapAll_Deprecated);*/
 	auto Start = CannonPosition->GetComponentLocation();
 	auto End = CannonPosition->GetForwardVector() * 650 + Start;
-	//bool bHasHit = GetWorld()->LineTraceSingleByObjectType(Result, Start, End, Params);
-	bool bHasHit = GetWorld()->LineTraceSingleByChannel(Result, TurretMesh->GetComponentLocation(), Target->GetActorLocation(), ECollisionChannel::ECC_Visibility, Params);
+	bool bHasHit = GetWorld()->LineTraceSingleByChannel(Result, TurretMesh->GetComponentLocation(), Target->GetActorLocation() +10, ECollisionChannel::ECC_Visibility, Params);
 	
 	auto Tank = OtherActors[0]->GetActorLocation();
 
@@ -244,38 +224,20 @@ void ATurret::Targeting()
 			Fire();
 		}
 	}
-
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 0, 0, 0.0001);
-
-	/*UE_LOG(LogTanks, Warning, TEXT("%s"), *Tank.ToString());
-	UE_LOG(Ends, Warning, TEXT("%s"), *End.ToString());*/
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 0.05, 0, 1);
 }
 
 void ATurret::Fire()
 {
-	// это все тот же вариант препода по видимости 
-	//if (!Target.IsValid())
-	//{
-	//	return;
-	//}
-	//
-	//FHitResult Result;
-	//FCollisionQueryParams Params; // эти 3 строчки позволяют игнорить самого себя
-	//Params.AddIgnoredActor(this);
-	//Params.AddIgnoredActor(Cannon);
-	//Params.bTraceComplex = true;
-	//if (GetWorld()->LineTraceSingleByChannel(Result, TurretMesh->GetComponentLocation(), Target->GetActorLocation(), ECollisionChannel::ECC_Visibility, Params))
-	//{ // если есть хит то заходим сюда
-	//	if (Result.Actor == Target.Get()) // проверяем что бы была наша цель
-	//	{
-	//		if (Cannon)
-	//			Cannon->ShootTurret();
-	//	}
-	//}
-	
 	if (Cannon)
 		Cannon->ShootTurret();
 } 
+
+void ATurret::FireAnyway()
+{
+	if (Cannon)
+		Cannon->ShootTurret();
+}
 
 void ATurret::OnDeath()
 {
@@ -317,7 +279,6 @@ void ATurret::OnHealthChanged(float CurrentHealthTurret)
 	// когда изменится здоровьк выведем на экран сообщение 
 	GEngine->AddOnScreenDebugMessage(141231312, 2, FColor::Red, FString::Printf(TEXT("Health Enemy Turret : %f"), CurrentHealthTurret));
 }
-
 
 void ATurret::SelfDestruction()
 {

@@ -25,6 +25,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UProjectileMovementComponent* MovementComponent;
 
+	// для урона по области
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+		USphereComponent* BlastRegion; 
+
 	 // при столкновении с чем-либо будет срабатывать эвент и будем обрабатывать столкновения
 	virtual void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
 };
